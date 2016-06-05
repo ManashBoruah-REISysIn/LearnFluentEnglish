@@ -1,245 +1,227 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A layout example that shows off a responsive product landing page.">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="learn fluent english">
+        <title>Learn Fluent English</title>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 
-    <title>Landing Page &ndash; Layout Examples &ndash; Pure</title>
-
-    
-
-
-<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-
-
-
-<!--[if lte IE 8]>
+    <!--[if lte IE 8]>
   
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
   
-<![endif]-->
-<!--[if gt IE 8]><!-->
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
   
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
   
-<!--<![endif]-->
+    <!--<![endif]-->
 
-
-
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-
-
-
-  
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="css/layouts/marketing-old-ie.css">
     <![endif]-->
     <!--[if gt IE 8]><!-->
         <link rel="stylesheet" href="css/layouts/marketing.css">
     <!--<![endif]-->
-  
-
-
     
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript" src="ResponsiveSlider/responsiveslides.min.js"></script>
-    <link rel="stylesheet" href="ResponsiveSlider/responsiveslides.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript" src="ResponsiveSlider/responsiveslides.min.js"></script>
+        <link rel="stylesheet" href="ResponsiveSlider/responsiveslides.css">
     
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXKl2zvyWKWUaCd0PAH6YjZN4KR7a-XHA&callback=loadMap"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXKl2zvyWKWUaCd0PAH6YjZN4KR7a-XHA&callback=loadMap"></script>
     
-    <script type="text/javascript">
-        $(function () {
-            $("#slider").responsiveSlides({
-                auto: true,
-                pause: true,
-                speed: 300
+        <script type="text/javascript">
+            $(function () {
+                $("#slider").responsiveSlides({
+                    auto: true,
+                    pause: true,
+                    speed: 300
+                });
             });
-            
-//            var address = "aundh+pune&components=country:IN|postal_code:411007|locality:Anand+Park";
-//            var apikey  = "AIzaSyA0S_iqHOjvl-seKDocN9NpzBtraXUIRF8";
-//            
-//            $.ajax({
-//              url:"https://maps.googleapis.com/maps/api/geocode/json",
-//              data:"address="+address+"&key="+apikey,
-//              success:function(response){
-//                  if(response.status == "OK") {
-//                      var map = new google.maps.Map(document.getElementById('mapholder'));
-//                      map.setCenter(response.results[0].geometry.location);
-//                      var marker = new google.maps.Marker({
-//                          map: map,
-//                          position: response.results[0].geometry.location
-//                      });
-//                  } else {
-//                      console.log('Failed to load map');
-//                  }
-//              }
-//            });
-        });
-        
-        function loadMap(){
-            var address = "aundh+pune&components=country:IN|postal_code:411007|locality:Anand+Park";
-            var map = new google.maps.Map(document.getElementById('mapholder'));
-            var geocoder = new google.maps.Geocoder();
-            
-            geocoder.geocode({'address': address}, function(results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                    map.setCenter(results[0].geometry.location);
-                    var marker = new google.maps.Marker({
-                      map: map,
-                      position: results[0].geometry.location
-                    });
+
+            function loadMap(){
+                var contentString = 'Anand Park,Aundh<br/>Pune,Maharashtra,4110077<br/>Mobile - 9881954567';
+
+                var address = "aundh+pune";
+                var map = new google.maps.Map(document.getElementById('mapholder'),{
+                    zoom: 12,
+                    center: {lat: -34.397, lng: 150.644},
+                    disableDefaultUI: true
+                });
+                var geocoder = new google.maps.Geocoder();
+
+                var infowindow = new google.maps.InfoWindow();
+
+                geocoder.geocode({'address': address}, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        map.setCenter(results[0].geometry.location);
+                        var marker = new google.maps.Marker({
+                          map: map,
+                          position: results[0].geometry.location
+                        });
+
+                        infowindow.setOptions({
+                           content: contentString,
+                           position: results[0].geometry.location
+                        });
+
+                        infowindow.open(map, marker);
+
+                        marker.addListener('click', function() {
+                            infowindow.open(map, marker);
+                        });
+                    } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
+
+            function scroll(t){
+                if(t === 'rev') {
+                    $('html, body').animate({
+                        scrollTop: $(".header").height()
+                    }, 2000);
+                } else if(t === 'abt') {
+                    $('html, body').animate({
+                        scrollTop: $("#about").offset().top
+                    }, 2000);
                 } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
+                    $('html, body').animate({
+                        scrollTop: $("#contact").offset().top
+                    }, 2000);
                 }
-            });
-        }
-    </script>
+            }
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a class="pure-menu-heading" href=""><img src="img/logo.png"/></a>
 
-</head>
-<body>
-
-
-
-
-
-
-
-
-
-<div class="header">
-    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href=""><img src="img/logo.png"/></a>
-
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">Reviews</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">About</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Contact</a></li>
-        </ul>
-    </div>
-</div>
-
-<div class="splash-container">
-    <div class="splash">
-        <h1 class="splash-subhead">UrbanPro Reviews</h1>
-        <ul class="rslides" id="slider">
-            <li>Studying in Pune University was an important learning experience for me. I had great time with teachers. Expecially, you are a teacher who really took on resposibilities. Sometimes, you might be a little strict, but it was necessary to those naughty students. You treated me very lenient, so I think you are a really nice person. Even though, I am not study in Pune University any longer , you still are my dear teacher who gave me a really good impression. I wish you all the best.<br/><br/>-- Xueshan Huang</li>
-            <li>As far as i am concerned, my actual English level is all due to the efforts made by Mrs. Walia to inculcate the knowledge of English. It was done with delicacy, perspicacity, proficiency; indeed her ways were rigorous, she was strict but consequently, i achieved my aim though. She is helpful.<br/><br/>-- Geancy Bashala</li>
-            <li>i just like the way she leads and behaves like a mother .she can manage a group of English teachers well. she is a real expert in English as well. All in all , she is perfect and I do like her .<br/><br/>-- Milad</li>
-            <li>Mrs Walia is a very good and perfect English teacher. She teaches in all ways according to her students. She covers all aspects i.e writing , speaking, listening, grammar, each and every little thing which a student should know while learning English. She is very particular about her class timings. Very helpful and never screamed at anyone, very soft spoken. She is a very good person as a human being. Her way of teaching is very different from others.<br/><br/>-- Neha Sarda</li>
-            <li>Wallia maam is one of those teachers whome not only i learnt the english from her , but also she taught me how to be strong and behave in different situations.One of the positive point of her classes is that, she knows what to learn and not wasting too much time on easy problems so her classes wouldn't be boring.Managing an institute with many nationalities is hard job , but when Wallia maam is manager so you are sure that everything will be done in its best.Altough she is kind and sweet with students but sometimes its needed to be more strict with them.After all you can take so many advantages from her personality and knowledge.<br/><br/>--Elmira Ardebili</li>
-            <li>Mrs.Walia's English Speaking Class for U.G./working person. I saw this board so many times at cash counter of mall. But everytime I think it's not for housewife.so I let it go.but on 11th October I started thinking about about it again and I called her. It was my 1st interaction with her.she was so sweet atleast she gave green signal to join the class and before that she called me at her place. I went her place and I am relaxed when I saw her 1st time. Her personality is so pleasant . She resemble to actor Parl Padamsee . Very friendly and smiley face. She was just like what I had imagined. She is so supportive and makes us comfortable in the class. She is open and understanding so we share our thoughts openly. Thanks for being kind to us.<br/><br/>-- Shilpa pathak</li>
-          </ul>
-    </div>
-</div>
-
-<div class="content-wrapper">
-    <div class="content">
-        <h2 class="content-head is-center">About</h2>
-
-        <div class="pure-g">
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-
-                <h3 class="content-subhead">
-                    &nbsp;
-                </h3>
-                <p style="font-style: italic;">
-                    I am a motivated and result-oriented English teacher with 20 years experience of teaching both Foreign
-                    and Indian students at Savitribai Phule Pune University.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-                <h3 class="content-subhead">
-                    &nbsp;
-                </h3>
-                <p style="font-style: italic;">
-                    I am looking to utilize my teaching skills for professionals,students and housewives.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-                <h3 class="content-subhead">
-                    &nbsp;
-                </h3>
-                <p style="font-style: italic;">
-                    In my role as teacher and administrator at the University
-                    I have had an experience at coordinating English Language training programs for International students
-                    from basic to advanced levels.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-                <h3 class="content-subhead">
-                    &nbsp;
-                </h3>
-                <p style="font-style: italic;">
-                    I have also designed and coordinated English Communication Skill programs
-                    for post-graduate Indian students including research scholars and professionals.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="ribbon l-box-lrg pure-g">
-        <div class="l-box-lrg is-center pure-u-1 pure-u-md-1-2 pure-u-lg-2-5">
-            <div><img class="pure-img-responsive" alt="Profile" src="img/dp.jpg"></div>
-            <div>
-                Archana Nireshwalia,
-                M.Phil in English from S.P.Pune University.
-            </div>
-        </div>
-        <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-3-5">
-
-            <h2 class="content-head content-head-ribbon" style="text-transform:none;">I have --</h2>
-
-            <p style="font-style: italic;font-size: 13px;">
-                # A good command of the English Language.<br/>
-                # The ability to train the students to use English Language effectively in functional, academic & business context.<br/>
-                # Thorough knowledge of grammar and its usage.<br/>
-                # Ability to identify language needs of individual students.
-            </p>
-        </div>
-    </div>
-
-    <div class="content">
-        <h2 class="content-head is-center">Contact</h2>
-
-        <div class="pure-g">
-            <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
-                <form class="pure-form pure-form-stacked">
-                    <fieldset>
-
-                        <label for="name">Name</label>
-                        <input id="name" type="text" placeholder="Your Name">
-
-
-                        <label for="email">Email</label>
-                        <input id="email" type="email" placeholder="Your Email">
-
-                        <label for="password">Phone Number</label>
-                        <input id="password" type="text" placeholder="Your Phone number">
-
-                        <button type="submit" class="pure-button">I m interested</button>
-                    </fieldset>
-                </form>
-            </div>
-
-            <div class="l-box-lrg pure-u-1 pure-u-md-3-5" id="mapholder">
-                &nbsp;
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item"><a href="javascript:scroll('rev');" class="pure-menu-link">Reviews</a></li>
+                    <li class="pure-menu-item"><a href="javascript:scroll('abt');" class="pure-menu-link">About</a></li>
+                    <li class="pure-menu-item"><a href="javascript:scroll('con');" class="pure-menu-link">Contact</a></li>
+                </ul>
             </div>
         </div>
 
-    </div>
+        <div class="splash-container" id='review'>
+            <div class="splash">
+                <h1 class="splash-subhead">UrbanPro Reviews</h1>
+                <ul class="rslides" id="slider">
+                    <li>Studying in Pune University was an important learning experience for me. I had great time with teachers. Expecially, you are a teacher who really took on resposibilities. Sometimes, you might be a little strict, but it was necessary to those naughty students. You treated me very lenient, so I think you are a really nice person. Even though, I am not study in Pune University any longer , you still are my dear teacher who gave me a really good impression. I wish you all the best.<br/><br/>-- Xueshan Huang</li>
+                    <li>As far as i am concerned, my actual English level is all due to the efforts made by Mrs. Walia to inculcate the knowledge of English. It was done with delicacy, perspicacity, proficiency; indeed her ways were rigorous, she was strict but consequently, i achieved my aim though. She is helpful.<br/><br/>-- Geancy Bashala</li>
+                    <li>i just like the way she leads and behaves like a mother .she can manage a group of English teachers well. she is a real expert in English as well. All in all , she is perfect and I do like her .<br/><br/>-- Milad</li>
+                    <li>Mrs Walia is a very good and perfect English teacher. She teaches in all ways according to her students. She covers all aspects i.e writing , speaking, listening, grammar, each and every little thing which a student should know while learning English. She is very particular about her class timings. Very helpful and never screamed at anyone, very soft spoken. She is a very good person as a human being. Her way of teaching is very different from others.<br/><br/>-- Neha Sarda</li>
+                    <li>Wallia maam is one of those teachers whome not only i learnt the english from her , but also she taught me how to be strong and behave in different situations.One of the positive point of her classes is that, she knows what to learn and not wasting too much time on easy problems so her classes wouldn't be boring.Managing an institute with many nationalities is hard job , but when Wallia maam is manager so you are sure that everything will be done in its best.Altough she is kind and sweet with students but sometimes its needed to be more strict with them.After all you can take so many advantages from her personality and knowledge.<br/><br/>--Elmira Ardebili</li>
+                    <li>Mrs.Walia's English Speaking Class for U.G./working person. I saw this board so many times at cash counter of mall. But everytime I think it's not for housewife.so I let it go.but on 11th October I started thinking about about it again and I called her. It was my 1st interaction with her.she was so sweet atleast she gave green signal to join the class and before that she called me at her place. I went her place and I am relaxed when I saw her 1st time. Her personality is so pleasant . She resemble to actor Parl Padamsee . Very friendly and smiley face. She was just like what I had imagined. She is so supportive and makes us comfortable in the class. She is open and understanding so we share our thoughts openly. Thanks for being kind to us.<br/><br/>-- Shilpa pathak</li>
+                  </ul>
+            </div>
+        </div>
 
-    <div class="footer l-box is-center">
-        Learn Fluent English
-    </div>
+        <div class="content-wrapper" id='about'>
+            <div class="content">
+                <h2 class="content-head is-center">About me</h2>
 
-</div>
+                <div class="pure-g">
+                    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+
+                        <h3 class="content-subhead">
+                            as a Teacher
+                        </h3>
+                        <p style="font-style: italic;">
+                            I am a motivated and result-oriented English teacher with 20 years experience of teaching both Foreign
+                            and Indian students at Savitribai Phule Pune University.
+                        </p>
+                    </div>
+                    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                        <h3 class="content-subhead">
+                            Objective
+                        </h3>
+                        <p style="font-style: italic;">
+                            I am looking to utilize my teaching skills for professionals,students and housewives.
+                        </p>
+                    </div>
+                    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                        <h3 class="content-subhead">
+                            as a Coordinator
+                        </h3>
+                        <p style="font-style: italic;">
+                            In my role as teacher and administrator at the University
+                            I have had an experience at coordinating English Language training programs for International students
+                            from basic to advanced levels.
+                        </p>
+                    </div>
+                    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+                        <h3 class="content-subhead">
+                            as a Designer
+                        </h3>
+                        <p style="font-style: italic;">
+                            I have also designed and coordinated English Communication Skill programs
+                            for post-graduate Indian students including research scholars and professionals.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ribbon l-box-lrg pure-g">
+                <div class="l-box-lrg is-center pure-u-1 pure-u-md-1-2 pure-u-lg-2-5">
+                    <div><img class="pure-img-responsive" alt="Profile" src="img/dp.jpg"></div>
+                    <div>
+                        Archana Nireshwalia,
+                        M.Phil in English from S.P.Pune University.
+                    </div>
+                </div>
+                <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-3-5">
+
+                    <h2 class="content-head content-head-ribbon" style="text-transform:none;">I have --</h2>
+
+                    <p style="font-style: italic;font-size: 13px;">
+                        # A good command of the English Language.<br/>
+                        # The ability to train the students to use English Language effectively in functional, academic & business context.<br/>
+                        # Thorough knowledge of grammar and its usage.<br/>
+                        # Ability to identify language needs of individual students.
+                    </p>
+                </div>
+            </div>
+
+            <div class="content" id='contact'>
+                <h2 class="content-head is-center">Are you interested, we are here</h2>
+
+                <div class="pure-g">
+                    <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
+                        <form class="pure-form pure-form-stacked">
+                            <fieldset>
+
+                                <label for="name">Name</label>
+                                <input id="name" type="text" placeholder="Your Name">
 
 
+                                <label for="email">Email</label>
+                                <input id="email" type="email" placeholder="Your Email">
 
+                                <label for="password">Phone Number</label>
+                                <input id="password" type="text" placeholder="Your Phone number">
 
+                                <button type="submit" class="pure-button">I m interested</button>
+                            </fieldset>
+                        </form>
+                    </div>
 
+                    <div class="l-box-lrg pure-u-1 pure-u-md-3-5" id="mapholder">
+                        &nbsp;
+                    </div>
+                </div>
 
-</body>
+            </div>
+
+            <div class="footer l-box is-center">
+                Learn Fluent English
+            </div>
+        </div>
+    </body>
 </html>
